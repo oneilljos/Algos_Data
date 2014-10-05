@@ -6,7 +6,6 @@
 package algos_data;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -25,12 +24,12 @@ public class SortAlgos {
         // if the size of the list is 0 or 1 it is sorted
         if (sz < 2) {
             return list;
-        }
+        } 
+        // Partitition the list in half, call mergesort on each half
         else {
-            // Partitition the list in half, call mergesort on each half
-            
             // first half
             ArrayList<Integer> l1 = new ArrayList<>(list.subList(0, sz/2));
+            // second half
             ArrayList<Integer> l2 = new ArrayList<>(list.subList(sz/2, sz));
             
             // sort each of the lists
@@ -72,19 +71,17 @@ public class SortAlgos {
         }
         return sorted;
     }
-    
-    // Helper function for mergesort, does the merge step
-    
-    
+     
     // Quicksort the given values
     // runs avg nlogn, O(n^2) uses n space
     // TODO: Abstract to work for <T> or write for strings
     // TODO: Determine the best list structure to use
     
-    public int[] Quicksort(int[] lst) {
+    public int[] Quicksort(int[] lst, int begin, int end) {
         
         //TODO: choose a pivot
         // Keep track of where we are and what we are comparing
+        // Parition elements arouns pivot -> do that on sublists
         
         // if bigger th
         return lst;
