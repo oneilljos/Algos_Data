@@ -5,6 +5,7 @@
  */
 
 package algos_data;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -18,7 +19,7 @@ public class Heap {
     
     // TODO: always want to know where the last element is
     // TODO: Should this be in an array?
-    Node binHeap = new Node();
+    ArrayList<Integer> binHeap = new ArrayList();
     // Current Number of items stored in the Bin Heap
     // This should be the size of the hashmap... (Needed?)
     int size = 0;
@@ -40,6 +41,15 @@ public class Heap {
     
     // Delete-min from Heap
     void deleteMin() {
+        // If empty, no min
+        // TODO: maybe through and exception
+        if (this.isEmpty()) {
+            return;
+        }
+        else {
+            
+        }
+        
         // Move the top to the last spot, remove, rebalance tree top down
     }
     
@@ -55,41 +65,31 @@ public class Heap {
     // Navigate to node to next at...
     
     // Balance the Heap
-    void balanceUp(Node n) {
-        // an empty Node is balanced
-        if (n.isEmpty()) {
-            return;
-        }
+    void balanceUp(int index) {
+        // TODO: Index should be in scope of size -1
         
-        while(!n.parent.isRoot()) {
-            // compare to parent
-            if (n.value < n.parent.value) {
-                // TODO: this might be pointer based and then be broken
-                // Want to make a duplicate
-                Node tempNode = n.parent;
-                // set n to parent (assing correct children)
-                n.parent.leftChild = n.leftChild;
-                n.parent.rightChild = n.rightChild;
-                n.parent.parent = n;
+        // Keep looping until at root node
+        while(index != 0) {
+            
+            // Get the parent Index
+            int parent = getParent(index);
+            
+            // if the child is greater than the parent swap values
+            if (binHeap.get(index) < binHeap.get(parent)) {
+                // capture temp value
+                Integer tempPar = binHeap.get(parent);
+                // Set parent value to child value
+                binHeap.set(parent, binHeap.get(index));
+                binHeap.set(index, tempPar);
                 
-                // TODO: one of these will be n. make it parent... 
-                // should always have a left (because Heaps are balanced)
-                if (tempNode.leftChild.value == n.value) {
-                    n.leftChild = n.parent;
-                    n.rightChild = tempNode.rightChild;
-                    n.parent = tempNode.parent;
-                }
-                else {
-                    n.leftChild = tempNode.leftChild;
-                    n.rightChild = n.parent;
-                    n.parent = tempNode.parent;
-                } 
+                // Update the index to new location and continue up
+                index = parent;   
             }
-            // Heap is balanced
+            // The Heap is balanced/sorted
             else {
                 return;
-            }
-        }
+            }    
+        }  
     }
     
     // Balance the heap from top down
@@ -102,4 +102,13 @@ public class Heap {
         return binHeap.isEmpty();
     }
     
+    // Gets the location (index) of the parent of this element
+    int getParent(int index) {
+        if ((index % 2) == 0) {
+               return (index/2 - 1);
+            }
+            else { 
+               return index/2 ;
+            }
+    }
 }
