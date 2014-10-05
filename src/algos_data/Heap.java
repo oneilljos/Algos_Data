@@ -39,6 +39,7 @@ public class Heap {
             binHeap.add(val);
             // Balance up from the one we added
             balanceUp(binHeap.size() - 1);
+            values.put(val, 1);
             return true;
         }
         
@@ -208,4 +209,17 @@ public class Heap {
                return index/2 ;
             }
     }
+    
+    // TODO: MAKE SWAP FUNCTION (make sure within range)
+    void swap(int index1, int index2) {
+        
+        // temp store 
+        Integer i2 = binHeap.get(index2);
+        
+        // swap values
+        binHeap.set(index2, binHeap.get(index1));
+        binHeap.set(index1, i2);
+    }
+    
+    // TODO: Abstract HEAPIFY
 }
