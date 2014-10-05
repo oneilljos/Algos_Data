@@ -5,6 +5,9 @@
  */
 package algos_data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Joseph
@@ -14,7 +17,61 @@ public class SortAlgos {
     // Merge Sort the given values runs  nlogn, uses n^2 space
     // TODO: Abstract to work for <T> or write for strings
     // TODO: Determine the best list structure to use
+    ArrayList<Integer> mergesort(ArrayList<Integer> list) {
+        
+        // number of elements in the list
+        int sz = list.size();
+        
+        // if the size of the list is 0 or 1 it is sorted
+        if (sz < 2) {
+            return list;
+        }
+        else {
+            // Partitition the list in half, call mergesort on each half
+            
+            // first half
+            ArrayList<Integer> l1 = new ArrayList<>(list.subList(0, sz/2));
+            ArrayList<Integer> l2 = new ArrayList<>(list.subList(sz/2, sz));
+            
+            // sort each of the lists
+            l1 = mergesort(l1);
+            l2 = mergesort(l2);
+            
+            // merge the sorted lists
+            return merge(l1, l2);
+        }
+    }
     
+    // merge the two sorted lists together to form one sorted list
+    ArrayList<Integer> merge(ArrayList<Integer> l1, ArrayList<Integer> l2) {
+        // sorted list we will return
+        ArrayList<Integer> sorted = new ArrayList();
+        
+        // TODO: what if one is empty?
+        while ((! l1.isEmpty()) || (! l2.isEmpty())) {
+            
+            // l1 is empty, add the rest of l2 to sorted
+            if (l1.isEmpty()) {
+                sorted.addAll(l2);
+                l2.removeAll(l2);
+            }
+            // l2 is empty, add the rest of l1 to sorted
+            else if (l2.isEmpty()) {
+                sorted.addAll(l1);
+                l1.removeAll(l1);
+            }
+            // Both still contain items, check
+            else if (l1.get(0) > l2.get(0)) {
+                sorted.add(l2.get(0));
+                l2.remove(0);
+            }
+            else {
+                sorted.add(l1.get(0));
+                l1.remove(0);
+            }
+        }
+        return sorted;
+    }
     
     // Helper function for mergesort, does the merge step
     

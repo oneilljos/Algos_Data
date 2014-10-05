@@ -79,9 +79,23 @@ public class Heap {
         }
     }
     
-    // TODO: Decrease-Key
-    
-    // Navigate to node to next at...
+    // return a sorted list from the heap
+    ArrayList<Integer> sort() {
+        
+        ArrayList<Integer> copy = binHeap;
+        ArrayList<Integer> sorted = new ArrayList();
+        
+        while (!binHeap.isEmpty()) {
+            sorted.add(getMin());
+            deleteMin();
+        }
+        
+        // replace what we destroyed
+        binHeap = copy;
+        
+        // Return sorted
+        return sorted;
+    }
     
     // Balance the Heap
     void balanceUp(int index) {

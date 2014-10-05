@@ -5,6 +5,8 @@
  */
 package algos_data;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Joseph
@@ -16,6 +18,31 @@ public class Algos_Data {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+    
+    
+        SortAlgos s = new SortAlgos();
+
+        ArrayList<Integer>  l1 = new ArrayList();
+        ArrayList<Integer>  l2 = new ArrayList();
+        ArrayList<Integer>  l3 = new ArrayList();
+        ArrayList<Integer>  l4 = new ArrayList();
+
+        int i = 0;
+        while ( i < 3 ) {
+            l1.add(1);
+            l1.add(23);
+            l1.add(34);
+            l1.add(45);
+            l1.add(55);
+            l1.add(66);
+
+            i++;
+        }
+        
+        System.out.println(l1);
+        System.out.println(s.mergesort(l1));
     }
+
+    
     
 }
