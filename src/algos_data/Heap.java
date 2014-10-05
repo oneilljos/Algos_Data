@@ -110,12 +110,8 @@ public class Heap {
             
             // if the child is greater than the parent swap values
             if (binHeap.get(index) < binHeap.get(parent)) {
-                // capture temp value
-                Integer tempPar = binHeap.get(parent);
-                // Set parent value to child value
-                binHeap.set(parent, binHeap.get(index));
-                binHeap.set(index, tempPar);
-                
+                // swap index and parent
+                swap(index, parent); 
                 // Update the index to new location and continue up
                 index = parent;   
             }
@@ -137,58 +133,55 @@ public class Heap {
         // Loop while in the bounds of the children!
         // TODO: can I abstract and shorten?
         while (2 * curIndex + 1 <= heapSize) {
-            Integer curVal = binHeap.get(curIndex);
-            Integer leftChild = binHeap.get(2 * curIndex + 1);
-            Integer rightChild = binHeap.get(2 * curIndex + 2);
+            Integer curVal = binHeap.get(curIndex);    // value at current index
+            int leftInd = 2 * curIndex + 1;            // index of left child
+            int rightInd = 2 * curIndex + 2;           // index of right child
+            Integer leftChild = binHeap.get(leftInd);  // value of left child
+            Integer rightChild = binHeap.get(rightInd); // value of right child
+            
             
             if (curVal < leftChild){
                 if (curVal < rightChild) {
                     // it is balanced
                     return;
-                }
+                } // right is smaller, but left is not
                 else {
                     // swap with right
-                    binHeap.set(curIndex, rightChild);
-                    binHeap.set(2 * curIndex + 2, curVal);
-                    curIndex = 2 * curIndex + 2;
+                    swap(curIndex, rightInd);
+                    curIndex = rightInd;
                 }
-            } // only less than right child
+            } // only left value is smaller than current
             else if (curVal < rightChild){
-                    // swap with left
-                    binHeap.set(curIndex, leftChild);
-                    binHeap.set(2 * curIndex + 1, curVal);
-                    curIndex = 2 * curIndex + 1;
+                // swap with left
+                swap(curIndex, leftInd);    
+                curIndex = leftInd;
                 }
             else // Both are smaller, but the smallest one at the top 
             {
+                // left is smaller than right
                 if (leftChild < rightChild) {
                     // swap the left
-                    binHeap.set(curIndex, leftChild);
-                    binHeap.set(2 * curIndex + 1, curVal);
-                    curIndex = 2 * curIndex + 1;
+                    swap(curIndex, leftInd);    
+                    curIndex = leftInd;
                 }
+                // right is smaller than left
                 else {
                     // swap with right
-                    binHeap.set(curIndex, rightChild);
-                    binHeap.set(2 * curIndex + 2, curVal);
-                    curIndex = 2 * curIndex + 2;
+                    swap(curIndex, rightInd);
+                    curIndex = rightInd;
                 }
             }
         }
         // Special case on even sized arraylist
         // TODO: can I cover this in for loop
-        // TODO: can I abstract this
         if (heapSize % 2 == 0){
             // compare the last element and it's parent
             int last = heapSize - 1;
             int parent = getParent(last);
             
             if (binHeap.get(last) < binHeap.get(parent)) {
-                // capture temp value
-                Integer tempPar = binHeap.get(parent);
-                // Set parent value to child value
-                binHeap.set(parent, binHeap.get(last));
-                binHeap.set(last, tempPar);
+                // swap the parent and last element
+                swap(last, parent);
             }
             
         }
@@ -221,5 +214,4 @@ public class Heap {
         binHeap.set(index1, i2);
     }
     
-    // TODO: Abstract HEAPIFY
 }
