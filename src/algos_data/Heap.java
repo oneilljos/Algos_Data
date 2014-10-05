@@ -29,14 +29,19 @@ public class Heap {
     HashMap<Integer, Integer> values = new HashMap();
     
     // Insert into the Heap
-    boolean insert(int val) {
+    boolean insert(Integer val) {
         // check if we already store this value (Heaps only store one of each val)
         if (values.containsKey(val)) {
             return false;
         }
         // insert Node at the next position and call balance on it
-        //else ()
-        return true;
+        else {
+            binHeap.add(val);
+            // Balance up from the one we added
+            balanceUp(binHeap.size() - 1);
+            return true;
+        }
+        
     }
     
     // Delete-min from Heap
