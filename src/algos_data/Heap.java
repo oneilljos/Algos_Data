@@ -44,20 +44,34 @@ public class Heap {
         // If empty, no min
         // TODO: maybe through and exception
         if (this.isEmpty()) {
-            return;
+            throw new IllegalArgumentException("ERROR: Heap is empty");
         }
         else {
             
+            int lastElement = binHeap.size() - 1;
+            // Put the last element at the head
+            binHeap.set(0, binHeap.get(lastElement));
+            
+            // Delete the last element
+            binHeap.remove(lastElement);
+            
+            // Rebalance
+            balanceDown();       
         }
-        
-        // Move the top to the last spot, remove, rebalance tree top down
     }
     
     // Merge Heap's
     
     // Find the minimum element
-    void getMin() {
-        // return the top element if it is not an empty heap
+    int getMin() {
+        if (!this.isEmpty()) {
+            return binHeap.get(0);
+        }
+        // Throw exception
+        else
+        {
+            throw new IllegalArgumentException("ERROR: Heap is empty");
+        }
     }
     
     // TODO: Decrease-Key
@@ -93,7 +107,71 @@ public class Heap {
     }
     
     // Balance the heap from top down
-    void balanceDown(Node n) {
+    void balanceDown() {
+        
+        // Start at the top and balance down
+        int curIndex = 0;
+        
+        int heapSize = binHeap.size();
+        
+        // Loop while in the bounds of the children!
+        // TODO: can I abstract and shorten?
+        while (2 * curIndex + 1 <= heapSize) {
+            Integer curVal = binHeap.get(curIndex);
+            Integer leftChild = binHeap.get(2 * curIndex + 1);
+            Integer rightChild = binHeap.get(2 * curIndex + 2);
+            
+            if (curVal < leftChild){
+                if (curVal < rightChild) {
+                    // it is balanced
+                    return;
+                }
+                else {
+                    // swap with right
+                    binHeap.set(curIndex, rightChild);
+                    binHeap.set(2 * curIndex + 2, curVal);
+                    curIndex = 2 * curIndex + 2;
+                }
+            } // only less than right child
+            else if (curVal < rightChild){
+                    // swap with left
+                    binHeap.set(curIndex, leftChild);
+                    binHeap.set(2 * curIndex + 1, curVal);
+                    curIndex = 2 * curIndex + 1;
+                }
+            else // Both are smaller, but the smallest one at the top 
+            {
+                if (leftChild < rightChild) {
+                    // swap the left
+                    binHeap.set(curIndex, leftChild);
+                    binHeap.set(2 * curIndex + 1, curVal);
+                    curIndex = 2 * curIndex + 1;
+                }
+                else {
+                    // swap with right
+                    binHeap.set(curIndex, rightChild);
+                    binHeap.set(2 * curIndex + 2, curVal);
+                    curIndex = 2 * curIndex + 2;
+                }
+            }
+        }
+        // Special case on even sized arraylist
+        // TODO: can I cover this in for loop
+        // TODO: can I abstract this
+        if (heapSize % 2 == 0){
+            // compare the last element and it's parent
+            int last = heapSize - 1;
+            int parent = getParent(last);
+            
+            if (binHeap.get(last) < binHeap.get(parent)) {
+                // capture temp value
+                Integer tempPar = binHeap.get(parent);
+                // Set parent value to child value
+                binHeap.set(parent, binHeap.get(last));
+                binHeap.set(last, tempPar);
+            }
+            
+        }
         
     }
     
