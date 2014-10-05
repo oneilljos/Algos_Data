@@ -37,7 +37,7 @@ public class BinarySearch {
         }
         else {
             //Don't know why it would get here
-            throw new IllegalArgumentException("BINARY SEARCH IS FUCKED!");
+            throw new IllegalArgumentException("ERROR: Binary Search");
         }
         
         // Should not get here either
