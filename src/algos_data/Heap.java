@@ -81,6 +81,7 @@ public class Heap {
     }
     
     // return a sorted list from the heap
+    // TODO: make this work given an array or list object...
     ArrayList<Integer> sort() {
         
         ArrayList<Integer> copy = binHeap;
@@ -123,13 +124,11 @@ public class Heap {
     }
     
     // Balance the heap from top down
-    void balanceDown() {
-        
+    void balanceDown() {       
         // Start at the top and balance down
-        int curIndex = 0;
-        
+        int curIndex = 0;       
         int heapSize = binHeap.size();
-        
+       
         // Loop while in the bounds of the children!
         // TODO: can I abstract and shorten?
         while (2 * curIndex + 1 <= heapSize) {
@@ -182,10 +181,8 @@ public class Heap {
             if (binHeap.get(last) < binHeap.get(parent)) {
                 // swap the parent and last element
                 swap(last, parent);
-            }
-            
-        }
-        
+            }           
+        }      
     }
     
     // Is this heap empty
