@@ -158,4 +158,10 @@ public class SortAlgos {
         return piv;
     }
     
+    ArrayList<Integer> heapsort(ArrayList<Integer> lst) {
+        Heap h = new Heap();
+        
+        return h.heapsort(lst);
+    }
+    
 }

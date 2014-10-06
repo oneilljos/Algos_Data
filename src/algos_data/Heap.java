@@ -17,6 +17,15 @@ import java.util.HashMap;
  */
 public class Heap {
     
+    class HeapObj {
+        ArrayList<Integer> heap;
+        HashMap<Integer, Integer> vals;
+        
+        public HeapObj(ArrayList<Integer> heap, HashMap<Integer, Integer> vals) {
+            this.heap = heap;
+            this.vals = vals;
+        }
+    }
     // TODO: always want to know where the last element is
     // TODO: Should this be in an array?
     ArrayList<Integer> binHeap = new ArrayList();
@@ -39,7 +48,7 @@ public class Heap {
             binHeap.add(val);
             // Balance up from the one we added
             balanceUp(binHeap.size() - 1);
-            values.put(val, 1);
+            values.put(val, val);
             return true;
         }
         
@@ -59,10 +68,11 @@ public class Heap {
             binHeap.set(0, binHeap.get(lastElement));
             
             // Delete the last element
+            values.remove(binHeap.get(lastElement));
             binHeap.remove(lastElement);
             
             // Rebalance
-            balanceDown();       
+            balanceDown(); 
         }
     }
     
@@ -82,7 +92,7 @@ public class Heap {
     
     // return a sorted list from the heap
     // TODO: make this work given an array or list object...
-    ArrayList<Integer> sort() {
+    ArrayList<Integer> heapsort() {
         
         ArrayList<Integer> copy = binHeap;
         ArrayList<Integer> sorted = new ArrayList();
@@ -99,6 +109,47 @@ public class Heap {
         return sorted;
     }
     
+    // Overloaded heapsort that takes an unsorted ArrayList<Integer>
+    // and returns a sorted ArrayList<Integer>
+    ArrayList<Integer> heapsort(ArrayList<Integer> lst) {
+        
+        HeapObj prev = heapify(lst);             // Creates heap, captures old HeapObj values
+        ArrayList<Integer> sorted = heapsort();  // call heap sort on
+        
+        // reset back to original values
+        binHeap = prev.heap;
+        values = prev.vals;
+        
+        // return sorted
+        return sorted;
+    }
+    
+    // turns and unsorted arraylist into a min heap, returns old values of
+    // binheap and values (HM) --> set new heap and values when creating heap
+    HeapObj heapify(ArrayList<Integer> lst) {
+        
+        // USe the params we have with a heap (reset or store)
+        ArrayList<Integer> prevHeap = binHeap;
+        HashMap<Integer, Integer> prevVals = values;
+        
+        binHeap = new ArrayList();
+        values = new HashMap();
+        
+        for (int i = 0; i < lst.size(); i++) {
+            // capture the current value at this index
+            Integer curVal = lst.get(i);
+            
+            // Make sure it doesn't exist in the heap, Add it to the heap
+            if (insert(curVal)) {  
+            }
+            else {
+                throw new IllegalArgumentException(
+                        "Heap can only contain unique values");
+            }
+        }
+        
+        return new HeapObj(prevHeap, prevVals);
+    }
     // Balance the Heap
     void balanceUp(int index) {
         // TODO: Index should be in scope of size -1
@@ -131,7 +182,7 @@ public class Heap {
        
         // Loop while in the bounds of the children!
         // TODO: can I abstract and shorten?
-        while (2 * curIndex + 1 <= heapSize) {
+        while (2 * curIndex + 2 < heapSize) {
             Integer curVal = binHeap.get(curIndex);    // value at current index
             int leftInd = 2 * curIndex + 1;            // index of left child
             int rightInd = 2 * curIndex + 2;           // index of right child
@@ -173,7 +224,7 @@ public class Heap {
         }
         // Special case on even sized arraylist
         // TODO: can I cover this in for loop
-        if (heapSize % 2 == 0){
+        if ((heapSize % 2 == 0) && (heapSize != 0)){
             // compare the last element and it's parent
             int last = heapSize - 1;
             int parent = getParent(last);
