@@ -77,14 +77,89 @@ public class SortAlgos {
     // TODO: Abstract to work for <T> or write for strings
     // TODO: Determine the best list structure to use
     
-    public int[] Quicksort(int[] lst, int begin, int end) {
+    public int[] quicksort(int[] lst, int begin, int end) {
+        // Make sure the begin and end are within bounds
+        if ((begin < 0) || (end >= lst.length)) {
+            throw new IllegalArgumentException("ERROR: Invalid begin/end bounds");
+        }
+        // if the length is 0 or 1 it is sorted
+        else if (lst.length < 2) {
+            return lst;
+        }
+        // choose a pivot -> as first element (naive approach)
+        // TODO: improve pivot choice w/ helper
         
-        //TODO: choose a pivot
-        // Keep track of where we are and what we are comparing
-        // Parition elements arouns pivot -> do that on sublists
+        if (begin < end) {
+            int piv = begin;
+            // Partition the given array
+            piv = quickPartition(lst, begin, end, piv);
+        
+            // Quick sort everything below the pivot
+            quicksort(lst, begin, piv - 1);
+            // quiclsort everything above the pivot
+            quicksort(lst, piv + 1 , end);
+        }
         
         // if bigger th
         return lst;
+    }
+    
+    // Returns the index of the pivot, after we have quicksorted
+    int quickPartition(int[] lst, int begin, int end, int piv) {
+        
+        int pivVal = lst[piv];          // Value of the pivot
+        int curIndex = begin;       // CurIndex we are comparing
+        
+        // Make sure the begin and end are within bounds
+        if ((begin < 0) || (end >= lst.length)) {
+            throw new IllegalArgumentException("ERROR: Invalid begin/end bounds");
+        }
+        // if the length is 0 or 1 it is sorted
+        else if (lst.length < 2) {
+            return 0;
+        }
+        
+        
+        // Loop to the from begin to end
+        while(curIndex <= end) {
+           // if the index we are comparing is to the right of the current pivot
+           if (curIndex < piv) {
+               // If the value of the current index is less than pivot val, do nothing
+               if (lst[curIndex] < pivVal) {
+                   
+               }
+               // Swap values, increase piv index
+               else {
+                   lst[piv] = lst[curIndex];
+                   lst[curIndex] = pivVal;
+                   piv++;
+               }
+           }
+           // if the index is to the left of the pivot
+           else if (curIndex > piv) {
+               // if the value is greater or equal, don't do anything
+               if (lst[curIndex] >= pivVal) {
+                   
+               }
+               // Swap smaller value with one after piv
+               // swap piv with that and increment pivot
+               else {
+                   // Swap smaller value with one after piv
+                   int temp = lst[piv + 1];
+                   lst[piv + 1] = lst[curIndex];
+                   lst[curIndex] = temp;
+                   
+                   // swap piv with that and increment pivot
+                   lst[piv] = lst[piv + 1];
+                   lst[piv + 1] = lst[piv];
+                   piv++;                 
+               }
+           }
+           
+           // Move onto the next index to check
+           curIndex++;
+        }   
+        return piv;
     }
     
 }
